@@ -1,0 +1,10 @@
+# MATLAB backup/autosave
+*.asv
+
+# MATLAB generated data/figures
+*.mat
+*.fig
+
+# OS/editor
+.DS_Store
+Thumbs.db
