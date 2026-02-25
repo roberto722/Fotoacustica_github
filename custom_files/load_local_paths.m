@@ -6,11 +6,23 @@ function local_paths = load_local_paths()
 
     local_paths = struct();
 
-    if exist('local_paths', 'file') ~= 2
+    % Preferisci il file local_paths.m nella stessa cartella di questa funzione,
+    % così funziona anche quando la current directory non è custom_files.
+    this_dir = fileparts(mfilename('fullpath'));
+    candidate_file = fullfile(this_dir, 'local_paths.m');
+
+    if exist(candidate_file, 'file') ~= 2
         return;
     end
 
-    loaded = local_paths();
+    % Esegui la funzione locale senza dipendere dall'ordine del MATLAB path.
+    already_on_path = ~isempty(strfind(path, this_dir));
+    if ~already_on_path
+        addpath(this_dir, '-begin');
+        cleanup_obj = onCleanup(@() rmpath(this_dir)); %#ok<NASGU>
+    end
+
+    loaded = feval(str2func('local_paths'));
     if ~isstruct(loaded)
         error('local_paths.m deve restituire una struct.');
     end
