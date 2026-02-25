@@ -23,6 +23,11 @@ Per iniziare a mettere ordine, questa repository ora include:
 - `custom_files/main_matlab_forearm_complex.m`: pipeline forearm complex.
 - `custom_files/main_matlab_Y_shaped.m`: pipeline Y-shaped.
 
+### Entry point unificato (consigliato)
+- `custom_files/main_generate_images.m`: unico script di accesso per impostare profilo, parametri e avvio della generazione/ricostruzione immagini.
+- `custom_files/build_generation_config.m`: configurazione centralizzata (default + override).
+- `custom_files/run_generation_pipeline.m`: orchestrazione pipeline per VOC/HDF5/PoliTo/Forearm/Y-shaped.
+
 ### Utility di caricamento dati
 - `custom_files/dataloader.m`
 - `custom_files/dataloader_HDF5.m`
