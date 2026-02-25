@@ -48,3 +48,18 @@ I vecchi script `main.m`, `main_HDF5.m`, `main_POLITO_phantoms.m`, `main_matlab_
 3. Per PoliTo puoi anche impostare `paths.polito_data_folder`.
 
 `local_paths.m` non deve essere versionato.
+
+## Naming parametri (Sprint 2)
+Convenzione canonica nei nuovi script/config:
+- `params.voc_ids`
+- `params.hdf5_ids`
+- `params.forearm_complex_ids`
+
+Sono ancora accettati alias legacy (`VOC_id_imgs`, `SINO_id_imgs`, `PRIN_imgs_id`, `HDF5_ids`, `ForearmComplex_ids`) tramite `normalize_generation_params_names.m`.
+
+## Test minimi automatici
+Sono stati aggiunti smoke test MATLAB in `tests/`:
+- `test_generation_config_aliases.m`
+- `run_all_tests.m`
+
+I test coprono normalizzazione naming e validazione config di base.

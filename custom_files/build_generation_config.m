@@ -28,7 +28,7 @@ function config = build_generation_config(profile, overrides)
             config.source.dataset_name = "VOC2012";
             config.params.device_probe_id = "PoliTo_probe_saturazione_ossigeno";
             config.params.max_imgs = 100;
-            config.params.VOC_id_imgs = {};
+            config.params.voc_ids = {};
             config.params.mb_batch = 1;
             config.params.field_of_view = [-0.01905 0.01905 0 0.038];
             config.params.number_of_grid_points_fov = [256 256];
@@ -40,7 +40,7 @@ function config = build_generation_config(profile, overrides)
             config.source.type = "hdf5";
             config.params.device_probe_id = "PoliTo_probe_saturazione_ossigeno_HF";
             config.params.max_imgs = 1;
-            config.params.HDF5_ids = {};
+            config.params.hdf5_ids = {};
             config.params.field_of_view = [-0.01905 0.01905 0 0.02];
             config.params.number_of_grid_points_fov = [640 333];
             config.params.speed_of_sound_tissue = 1500;
@@ -62,7 +62,7 @@ function config = build_generation_config(profile, overrides)
             config.source.type = "forearm_complex";
             config.params.device_probe_id = "PoliTo_probe_oxy_PhantomComplex";
             config.params.max_imgs = 1;
-            config.params.ForearmComplex_ids = {};
+            config.params.forearm_complex_ids = {};
             config.params.field_of_view = [-0.01905 0.01905 0 0.020];
             config.params.number_of_grid_points_fov = [635 333];
             config.params.speed_of_sound_tissue = 1200;
@@ -74,7 +74,7 @@ function config = build_generation_config(profile, overrides)
             config.source.type = "y_shaped";
             config.params.device_probe_id = "PoliTo_probe_Y_shaped";
             config.params.max_imgs = 1;
-            config.params.ForearmComplex_ids = {};
+            config.params.forearm_complex_ids = {};
             config.params.field_of_view = [-0.02 0.02 0 0.0162];
             config.params.number_of_grid_points_fov = [640 267];
             config.params.speed_of_sound_tissue = 1500;
@@ -87,6 +87,7 @@ function config = build_generation_config(profile, overrides)
     end
 
     config = merge_structs(config, overrides);
+    config.params = normalize_generation_params_names(config.params);
 end
 
 function config = local_default_config(local_paths)
