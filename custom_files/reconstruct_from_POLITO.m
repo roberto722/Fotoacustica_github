@@ -3,8 +3,12 @@ function reconstruct_from_POLITO(params, model)
     [sinograms] = dataloader_POLITO(params.folder, params.mat_filename, model);
     
     exp_name = params.mat_filename;
-    %save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\fantocci_PDMS_2025_04_07\' + exp_name;
-    save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\fantocci_PDMS_Y_20250422\' + exp_name;
+    if isfield(params, 'output_folder') && strlength(string(params.output_folder)) > 0
+        save_dir = fullfile(char(params.output_folder), char(exp_name));
+    else
+        %save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\fantocci_PDMS_2025_04_07\' + exp_name;
+        save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\fantocci_PDMS_Y_20250422\' + exp_name;
+    end
 
 
     sinograms = double(sinograms);
@@ -110,4 +114,3 @@ function reconstruct_from_POLITO(params, model)
         % param_EYE = num2str(params.lambda_L1_eye_reg, '%e');
         % param_EYE = param_EYE(end-3:end);
         % niftiwrite(rec_img_L1_eye, fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_L1_eye_' param_EYE '.nii']));
-

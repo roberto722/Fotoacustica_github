@@ -1,9 +1,13 @@
 function reconstruct_from_HDF5(params, model)
     % Load  sinograms data
-    [sinograms, file_names] = dataloader_HDF5(params.HDF5_ids, model);
+    [sinograms, file_names] = dataloader_HDF5(params.HDF5_ids, model, params.data_folder);
 
-    %save_dir = 'E:\Scardigno\Fotoacustica-MB\dataset\Forearm_2000_recs';
-    save_dir = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex_HDF5_samples\transverse';
+    if isfield(params, 'output_folder') && strlength(string(params.output_folder)) > 0
+        save_dir = char(params.output_folder);
+    else
+        %save_dir = 'E:\Scardigno\Fotoacustica-MB\dataset\Forearm_2000_recs';
+        save_dir = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex_HDF5_samples\transverse';
+    end
     
     % Perform model-based reconstruction
     batch_size = 1;
@@ -102,4 +106,3 @@ function reconstruct_from_HDF5(params, model)
         % param_EYE = num2str(params.lambda_L1_eye_reg, '%e');
         % param_EYE = param_EYE(end-3:end);
         % niftiwrite(rec_img_L1_eye, fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_L1_eye_' param_EYE '.nii']));
-

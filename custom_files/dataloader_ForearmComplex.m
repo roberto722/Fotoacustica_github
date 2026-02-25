@@ -1,10 +1,14 @@
-function [sinograms, file_names] = dataloader_ForearmComplex(ids, model)
+function [sinograms, file_names] = dataloader_ForearmComplex(ids, model, data_folder)
 
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\transverse\';
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\longitudinal\';
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Phantom_complex\Phantom_pencil_lead\transverse\';
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\sim_31_25_mat\';
-sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\prove_x_BA\lead step12mm width25mm\mat files\';
+if nargin < 3 || strlength(string(data_folder)) == 0
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\transverse\';
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\longitudinal\';
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Phantom_complex\Phantom_pencil_lead\transverse\';
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\sim_31_25_mat\';
+    sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\prove_x_BA\lead step12mm width25mm\mat files\';
+else
+    sino_folder = char(data_folder);
+end
 
 if isempty(ids)
     D_images = dir(fullfile(sino_folder, '*.mat'));
