@@ -46,10 +46,10 @@ function reconstruct_from_VOC(dataset_name, model, params)
         
         % Perform model-based reconstruction
         % rec_img_no_reg = reconstruct_model_based(model, sino_b, 'NN_REC_WITHOUT_REG', params.lambda_shearlet, params.lambda_tikhonov, params.lambda_laplacian, params.lambda_TV, params.lambda_L1_eye_reg, params.num_iterations_mb);
-        % tic
-        % rec_img_L1_shearlet = reconstruct_model_based(model, sino_b, 'L1_SHEARLET', params.lambda_shearlet, params.lambda_tikhonov, params.lambda_laplacian, params.lambda_TV, params.lambda_L1_eye_reg, params.num_iterations_mb);
-        % disp("Tempo per L1 Shearlet")
-        % toc
+        tic
+        rec_img_L1_shearlet = reconstruct_model_based(model, sino_b, 'L1_SHEARLET', params.lambda_shearlet, params.lambda_tikhonov, params.lambda_laplacian, params.lambda_TV, params.lambda_L1_eye_reg, params.num_iterations_mb);
+        disp("Tempo per L1 Shearlet")
+        toc
         % rec_img_L2 = reconstruct_model_based(model, sino_b, 'L2_TIKHONOV_AND_LAPLACIAN', params.lambda_shearlet, params.lambda_tikhonov, params.lambda_laplacian, params.lambda_TV, params.lambda_L1_eye_reg, params.num_iterations_mb);
         % rec_img_TV = reconstruct_model_based(model, sino_b, 'TV_NN_REG', params.lambda_shearlet, params.lambda_tikhonov, params.lambda_laplacian, params.lambda_TV, params.lambda_L1_eye_reg, params.num_iterations_mb);
         % rec_img_L1_eye = reconstruct_model_based(model, sino_b, 'L1_EYE_REG', params.lambda_shearlet, params.lambda_tikhonov, params.lambda_laplacian, params.lambda_TV, params.lambda_L1_eye_reg, params.num_iterations_mb);
@@ -92,10 +92,11 @@ function reconstruct_from_VOC(dataset_name, model, params)
             niftiwrite(sino_b(:, :, k), fullfile(char(sinogram_dir), sinogram_filename));
 
             bp_filename = sprintf('%s_%s_%s_rec_imgs_bp.nii', device_probe_id, dataset_name_char, name_noext);
-            niftiwrite(rec_imgs_bp, fullfile(char(bp_dir), bp_filename));
-            % param_shearlet = num2str(params.lambda_shearlet, '%e');
-            % param_shearlet = param_shearlet(end-3:end);
-            % niftiwrite(rec_img_L1_shearlet(:, :, k), fullfile(rec_dir, [params.device_probe_id '_' dataset_name '_' name_noext '_rec_img_L1_shearlet_' param_shearlet '.nii']));
+            niftiwrite(rec_imgs_bp(:, :, k), fullfile(char(bp_dir), bp_filename));
+            
+            param_shearlet = num2str(params.lambda_shearlet, '%e');
+            param_shearlet = param_shearlet(end-3:end);
+            niftiwrite(rec_img_L1_shearlet(:, :, k), fullfile(rec_dir, [params.device_probe_id '_' dataset_name '_' name_noext '_rec_img_L1_shearlet_' param_shearlet '.nii']));
         end
     end
     
