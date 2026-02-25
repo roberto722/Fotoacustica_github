@@ -27,38 +27,47 @@ function validate_generation_config(config)
                'oppure passa overrides.rec_toolbox_path.']);
     end
 
+    params = normalize_generation_params_names(config.params);
     source_type = lower(string(config.source.type));
     switch source_type
         case "voc"
             if ~isfield(config.source, 'dataset_name') || strlength(string(config.source.dataset_name)) == 0
                 error('Per profilo VOC serve config.source.dataset_name.');
             end
+            validate_ids_field(params, 'voc_ids', 'VOC/SINOGRAMMI');
 
         case "polito"
-            if ~isfield(config.params, 'folder') || strlength(string(config.params.folder)) == 0
+            if ~isfield(params, 'folder') || strlength(string(params.folder)) == 0
                 error(['Per profilo PoliTo serve config.params.folder. ' ...
                        'Imposta paths.polito_data_folder in local_paths.m o overrides.params.folder.']);
             end
-            if ~isfield(config.params, 'mat_filenames') || isempty(config.params.mat_filenames)
+            if ~isfield(params, 'mat_filenames') || isempty(params.mat_filenames)
                 error('Per profilo PoliTo serve config.params.mat_filenames non vuoto.');
             end
 
         case "hdf5"
-            if ~isfield(config.params, 'HDF5_ids')
-                error('Per profilo HDF5 serve config.params.HDF5_ids (anche vuoto).');
-            end
+            validate_ids_field(params, 'hdf5_ids', 'HDF5');
 
         case "forearm_complex"
-            if ~isfield(config.params, 'ForearmComplex_ids')
-                error('Per profilo forearm_complex serve config.params.ForearmComplex_ids (anche vuoto).');
-            end
+            validate_ids_field(params, 'forearm_complex_ids', 'forearm_complex');
 
         case "y_shaped"
-            if ~isfield(config.params, 'ForearmComplex_ids')
-                error('Per profilo y_shaped serve config.params.ForearmComplex_ids (anche vuoto).');
-            end
+            validate_ids_field(params, 'forearm_complex_ids', 'y_shaped');
 
         otherwise
             error('Tipo sorgente non supportato: %s', config.source.type);
+    end
+end
+
+function validate_ids_field(params, field_name, profile_name)
+    if ~isfield(params, field_name)
+        error(['Per profilo %s serve config.params.%s (anche vuoto). ' ...
+               'Puoi usare anche l''alias legacy dove previsto.'], profile_name, field_name);
+    end
+
+    value = params.(field_name);
+    valid_type = iscell(value) || isstring(value) || isnumeric(value);
+    if ~valid_type
+        error('config.params.%s deve essere cell/string/numerico.', field_name);
     end
 end
