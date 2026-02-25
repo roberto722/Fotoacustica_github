@@ -83,11 +83,16 @@ function reconstruct_from_VOC(dataset_name, model, params)
         % exportgraphics(f,'VOC.png','Resolution',300)
 
          % Save results
+        device_probe_id = char(params.device_probe_id);
+        dataset_name_char = char(dataset_name);
+
         parfor k = 1:bsz
             name_noext = ids_noext{idx(k)};
-            niftiwrite(sino_b(:, :, k), fullfile(sinogram_dir, [params.device_probe_id '_' dataset_name '_' name_noext '_sinogram.nii']));
-    
-            niftiwrite(rec_imgs_bp, fullfile(bp_dir, [params.device_probe_id '_' dataset_name '_' name_noext '_rec_imgs_bp.nii']));
+            sinogram_filename = sprintf('%s_%s_%s_sinogram.nii', device_probe_id, dataset_name_char, name_noext);
+            niftiwrite(sino_b(:, :, k), fullfile(char(sinogram_dir), sinogram_filename));
+
+            bp_filename = sprintf('%s_%s_%s_rec_imgs_bp.nii', device_probe_id, dataset_name_char, name_noext);
+            niftiwrite(rec_imgs_bp, fullfile(char(bp_dir), bp_filename));
             % param_shearlet = num2str(params.lambda_shearlet, '%e');
             % param_shearlet = param_shearlet(end-3:end);
             % niftiwrite(rec_img_L1_shearlet(:, :, k), fullfile(rec_dir, [params.device_probe_id '_' dataset_name '_' name_noext '_rec_img_L1_shearlet_' param_shearlet '.nii']));
