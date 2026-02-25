@@ -22,7 +22,7 @@ model = define_model_for_reconstruction( ...
 reg_methods = ["L1_SHEARLET"];
 lambdas = ["1e-8", "1e-7", "1e-6", "1e-5", "1e-4", "1e-3", "1e-2", "1e-1", "1"];
 
-results = run_lambda_sweep(params, model, reg_methods, lambdas, 'PRIN_TRUE_L-CURVE');
+results = run_lambda_sweep_residuals(params, model, reg_methods, lambdas, 'PRIN_TRUE_L-CURVE');
 save_residuals(results, params.voc_ids);
 
 function params = build_params()
@@ -53,40 +53,6 @@ function params = build_params()
     params.lambda_L1_eye_reg = 1e-4;
     params.lambda_laplacian = 0;
     params.num_iterations_mb = 200;
-end
-
-function results = run_lambda_sweep(params, model, reg_methods, lambdas, dataset_name)
-    results = initialize_results(reg_methods, params.voc_ids, lambdas);
-
-    for i = 1:numel(lambdas)
-        for id = 1:numel(params.voc_ids)
-            params.lambda_shearlet = str2double(lambdas(i));
-            params.lambda_TV = str2double(lambdas(i));
-
-            [recs, ~, lCurveErrImg, lCurveErrReg] = reconstruct_from_VOC_residuals( ...
-                dataset_name, model, params, reg_methods, true);
-
-            recs_names = fieldnames(recs);
-            for j = 1:size(recs_names, 1)
-                recs_name = recs_names{j};
-                if recs_name ~= "BACKPROJECTION"
-                    results.(recs_name){id}(i, :) = {lambdas(i), lCurveErrImg.(recs_name), lCurveErrReg.(recs_name)};
-                end
-            end
-        end
-    end
-end
-
-function results = initialize_results(reg_methods, image_ids, lambdas)
-    results = struct();
-    for a = 1:numel(reg_methods)
-        results.(reg_methods(a)) = cell(1, numel(image_ids));
-        for b = 1:numel(image_ids)
-            results.(reg_methods(a)){b} = table('Size', [size(lambdas, 2), 3], ...
-                'VariableTypes', ["string", "double", "double"], ...
-                'VariableNames', ["Lambda", "lCurveErrImg_" + string(image_ids(b)), "lCurveErrReg_" + string(image_ids(b))]);
-        end
-    end
 end
 
 function save_residuals(results, image_ids)
