@@ -99,40 +99,48 @@ function [recs, imgs, lCurveErrImgs, lCurveErrRegs] = reconstruct_from_VOC_resid
             id = char(params.SINO_id_imgs);
             dataset_name = [dataset_name '_' id];
         end
-        
-        
+        device_probe_id = char(params.device_probe_id);
+        dataset_name_char = char(dataset_name);
+        save_dir_char = char(save_dir);
+
         if exist('rec_imgs_bp','var')
-            niftiwrite(rec_imgs_bp, fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_imgs_bp.nii']));
+            bp_filename = sprintf('%s_%s_rec_imgs_bp.nii', device_probe_id, dataset_name_char);
+            niftiwrite(rec_imgs_bp, fullfile(save_dir_char, bp_filename));
             recs.bp = rec_imgs_bp;
         end
         if exist('rec_img_no_reg','var')
             rec_img_no_reg_blur = imgaussfilt(rec_img_no_reg, 1);
-            niftiwrite(cat(3, rec_img_no_reg, rec_img_no_reg_blur), fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_no_reg.nii']));
+            no_reg_filename = sprintf('%s_%s_rec_img_no_reg.nii', device_probe_id, dataset_name_char);
+            niftiwrite(cat(3, rec_img_no_reg, rec_img_no_reg_blur), fullfile(save_dir_char, no_reg_filename));
             recs.no_reg = rec_img_no_reg;
         end
         if exist('rec_img_L1_shearlet','var')
             param_shearlet = num2str(params.lambda_shearlet, '%e');
             param_shearlet = [param_shearlet(1:3), param_shearlet(end-3:end)];
             rec_img_L1_shearlet_blur = imgaussfilt(rec_img_L1_shearlet, 1);
-            niftiwrite(cat(3, rec_img_L1_shearlet, rec_img_L1_shearlet_blur), fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_L1_shearlet_' param_shearlet '.nii']));
+            l1_shearlet_filename = sprintf('%s_%s_rec_img_L1_shearlet_%s.nii', device_probe_id, dataset_name_char, param_shearlet);
+            niftiwrite(cat(3, rec_img_L1_shearlet, rec_img_L1_shearlet_blur), fullfile(save_dir_char, l1_shearlet_filename));
         end
         if exist('rec_img_L2','var')
             param_L2 = num2str(params.lambda_tikhonov, '%e');
             param_L2 = [param_L2(1:3), param_L2(end-3:end)];
-            niftiwrite(rec_img_L2, fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_L2_' param_L2 '.nii']));
+            l2_filename = sprintf('%s_%s_rec_img_L2_%s.nii', device_probe_id, dataset_name_char, param_L2);
+            niftiwrite(rec_img_L2, fullfile(save_dir_char, l2_filename));
         end
         if exist('rec_img_TV','var')
             param_TV = num2str(params.lambda_TV, '%e');
             param_TV = [param_TV(1:3), param_TV(end-3:end)];
             rec_img_TV_blur = imgaussfilt(rec_img_TV, 0.5);
             rec_img_TV_blur_2 = imgaussfilt(rec_img_TV, 1);
-            niftiwrite(cat(3, rec_img_TV, rec_img_TV_blur, rec_img_TV_blur_2), fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_TV_' param_TV '.nii']));
+            tv_filename = sprintf('%s_%s_rec_img_TV_%s.nii', device_probe_id, dataset_name_char, param_TV);
+            niftiwrite(cat(3, rec_img_TV, rec_img_TV_blur, rec_img_TV_blur_2), fullfile(save_dir_char, tv_filename));
             recs.TV = rec_img_TV;
         end
         if exist('rec_img_L1_eye','var')
             param_EYE = num2str(params.lambda_L1_eye_reg, '%e');
             param_EYE = [param_EYE(1:3), param_EYE(end-3:end)];
-            niftiwrite(rec_img_L1_eye, fullfile(save_dir, [params.device_probe_id '_' dataset_name '_rec_img_L1_eye_' param_EYE '.nii']));
+            l1_eye_filename = sprintf('%s_%s_rec_img_L1_eye_%s.nii', device_probe_id, dataset_name_char, param_EYE);
+            niftiwrite(rec_img_L1_eye, fullfile(save_dir_char, l1_eye_filename));
         end
     end
 
@@ -171,4 +179,3 @@ function [recs, imgs, lCurveErrImgs, lCurveErrRegs] = reconstruct_from_VOC_resid
 
     disp("Images from VOC dataset successfully reconstructed and saved.")
 end
-
