@@ -1,6 +1,6 @@
 function [sinograms, file_names] = reconstruct_from_Y_shaped(params, model)
     % Load  sinograms data
-    [sinograms, file_names] = dataloader_Y_shaped(params.ForearmComplex_ids, model);
+    [sinograms, file_names] = dataloader_Y_shaped(params.ForearmComplex_ids, model, params.data_folder);
     % params.HDF5_ids = {};
     % [sinograms, file_names] = dataloader_HDF5_subsampler(params.HDF5_ids, model);
 
@@ -9,7 +9,11 @@ function [sinograms, file_names] = reconstruct_from_Y_shaped(params, model)
     % save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\Phantom_complex\Phantom_pencil_lead\transverse\test'; 
     % save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\sim_31_25_mat'; 
     % save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\phantom_Y-shaped';
-    save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\Phantom_Y-shaped_new_morphology';
+    if isfield(params, 'output_folder') && strlength(string(params.output_folder)) > 0
+        save_dir = char(params.output_folder);
+    else
+        save_dir = 'E:\Scardigno\Fotoacustica-MB\outputs\Phantom_Y-shaped_new_morphology';
+    end
 
     if ~exist(save_dir, 'dir')
         mkdir(save_dir);
@@ -73,4 +77,3 @@ function [sinograms, file_names] = reconstruct_from_Y_shaped(params, model)
     end
 
 end
-

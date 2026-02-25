@@ -1,7 +1,11 @@
-function [sinograms, file_names] = dataloader_HDF5(ids, model)
+function [sinograms, file_names] = dataloader_HDF5(ids, model, data_folder)
 
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm2000\';
-sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex_HDF5_samples\transverse\';
+if nargin < 3 || strlength(string(data_folder)) == 0
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm2000\';
+    sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex_HDF5_samples\transverse\';
+else
+    sino_folder = char(data_folder);
+end
 
 if isempty(ids)
     D_images = dir(fullfile(sino_folder, '*.hdf5'));

@@ -1,11 +1,15 @@
-function [sinograms, file_names] = dataloader_Y_shaped(ids, model)
+function [sinograms, file_names] = dataloader_Y_shaped(ids, model, data_folder)
 
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\transverse\';
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\longitudinal\';
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Phantom_complex\Phantom_pencil_lead\transverse\';
-%sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\sim_31_25_mat\';
-%sino_folder = 'F:\Scardigno\Fotoacustica-MB\data\phantom_Y-shaped\mat_files\';
-sino_folder = 'F:\Scardigno\Fotoacustica-MB\data\Phantom_Y-shaped_new_morphology\mat_files\';
+if nargin < 3 || strlength(string(data_folder)) == 0
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\transverse\';
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Forearm_complex\longitudinal\';
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\Phantom_complex\Phantom_pencil_lead\transverse\';
+    %sino_folder = 'E:\Scardigno\Fotoacustica-MB\data\sim_31_25_mat\';
+    %sino_folder = 'F:\Scardigno\Fotoacustica-MB\data\phantom_Y-shaped\mat_files\';
+    sino_folder = 'F:\Scardigno\Fotoacustica-MB\data\Phantom_Y-shaped_new_morphology\mat_files\';
+else
+    sino_folder = char(data_folder);
+end
 
 if isempty(ids)
     D_images = dir([sino_folder '/*.mat']);
@@ -20,4 +24,3 @@ for i = 1:numel(ids)
     file_names{i} = strcat(ids{i}(1:end-4), '_750');
     i
 end
-

@@ -126,6 +126,8 @@ function config = local_default_config(local_paths)
     end
 
     config.params.regularization = '';
+    config.params.data_folder = '';
+    config.params.output_folder = '';
     config.params.lambda_shearlet = 1e-5;
     config.params.lambda_tikhonov = 1e-4;
     config.params.lambda_TV = 1e-4;

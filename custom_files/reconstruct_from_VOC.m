@@ -1,9 +1,13 @@
 function reconstruct_from_VOC(dataset_name, model, params)
     % Load  sinograms data
-    [sinograms, imgs, imgs_name] = dataloader(dataset_name, model, params.VOC_id_imgs, params.max_imgs);
+    [sinograms, imgs, imgs_name] = dataloader(dataset_name, model, params.VOC_id_imgs, params.max_imgs, params.data_folder);
 
-    %save_dir = 'E:\Scardigno\Fotoacustica-MB\dataset\linear_low_freq';
-    save_dir = 'E:\Scardigno\Fotoacustica-MB\dataset\VOC_forearm_2000_test';
+    if isfield(params, 'output_folder') && strlength(string(params.output_folder)) > 0
+        save_dir = char(params.output_folder);
+    else
+        %save_dir = 'E:\Scardigno\Fotoacustica-MB\dataset\linear_low_freq';
+        save_dir = 'E:\Scardigno\Fotoacustica-MB\dataset\VOC_forearm_2000_test';
+    end
     sinogram_dir = save_dir + "/sinograms";
     bp_dir = save_dir + "/BP";
     rec_dir = save_dir + "/recs";
@@ -123,4 +127,3 @@ function reconstruct_from_VOC(dataset_name, model, params)
     % end
     disp("Images from VOC dataset successfully reconstructed.")
 end
-

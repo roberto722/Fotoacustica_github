@@ -1,4 +1,4 @@
-function [sinograms, imgs, img_names] = dataloader(dataset_type, model, id_imgs, max_imgs)
+function [sinograms, imgs, img_names] = dataloader(dataset_type, model, id_imgs, max_imgs, data_folder)
 
 if nargin < 2
     model = 0;
@@ -8,7 +8,11 @@ elseif nargin < 3
 end
 
 if strcmp(dataset_type, 'VOC2012')
-    image_folder = 'E:\Scardigno\Fotoacustica-MB\data\JPEGImages'; % Path to 'JPEGImages' folder of VOC2012 dataset.
+    if nargin >= 5 && strlength(string(data_folder)) > 0
+        image_folder = char(data_folder);
+    else
+        image_folder = 'E:\Scardigno\Fotoacustica-MB\data\JPEGImages'; % Path to 'JPEGImages' folder of VOC2012 dataset.
+    end
     D_images = dir([image_folder '/*.jpg']);
 
     if isempty(id_imgs)
@@ -61,4 +65,3 @@ else
 end
 
 end
-
