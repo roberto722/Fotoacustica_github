@@ -50,6 +50,12 @@ Per iniziare a mettere ordine, questa repository ora include:
 - `custom_files/load_params_concave.m`
 - `custom_files/load_or_calculate_kernel_for_backprojection_rec.m`
 
+
+## Configurazione locale (nuovo)
+Per evitare path hard-coded, crea `custom_files/local_paths.m` copiando `custom_files/local_paths.example.m` e personalizza i percorsi locali (toolbox, dati PoliTo, ecc.).
+
+Lo script `main_generate_images.m` e la pipeline centralizzata leggono automaticamente `local_paths.m` se presente. In alternativa puoi passare gli stessi valori via `overrides`.
+
 ## Convenzione consigliata (da ora in poi)
 1. **Nuovi esperimenti**: partire da uno script `custom_files/main_*.m` specifico per dataset.
 2. **Funzioni riusabili**: aggiungerle come `function` in file dedicati, non dentro gli script `main`.

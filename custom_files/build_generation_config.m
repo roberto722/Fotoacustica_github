@@ -18,7 +18,8 @@ function config = build_generation_config(profile, overrides)
         overrides = struct();
     end
 
-    config = local_default_config();
+    local_paths = load_local_paths();
+    config = local_default_config(local_paths);
     config.profile = string(profile);
 
     switch lower(config.profile)
@@ -49,7 +50,6 @@ function config = build_generation_config(profile, overrides)
         case "polito"
             config.source.type = "polito";
             config.params.device_probe_id = "PoliTo_probe_phantoms";
-            config.params.folder = 'E:\Scardigno\Fotoacustica-MB\data\fantocci_PDMS_Y_20250422';
             config.params.mat_filenames = {"US_base_long"};
             config.params.field_of_view = [-0.01905 0.01905 0 0.025];
             config.params.number_of_grid_points_fov = [668 429];
@@ -89,10 +89,15 @@ function config = build_generation_config(profile, overrides)
     config = merge_structs(config, overrides);
 end
 
-function config = local_default_config()
+function config = local_default_config(local_paths)
     config = struct();
     config.profile = "voc";
-    config.rec_toolbox_path = 'E:\Scardigno\Fotoacustica-MB\mb-rec-msot';
+
+    if isfield(local_paths, 'rec_toolbox_path')
+        config.rec_toolbox_path = local_paths.rec_toolbox_path;
+    else
+        config.rec_toolbox_path = '';
+    end
 
     config.source = struct();
     config.source.type = "voc";
@@ -112,6 +117,12 @@ function config = local_default_config()
     config.params.speed_of_sound_tissue = 1540;
     config.params.model_normalization_factor = [];
     config.params.broken_transducers = [];
+
+    if isfield(local_paths, 'polito_data_folder')
+        config.params.folder = local_paths.polito_data_folder;
+    else
+        config.params.folder = '';
+    end
 
     config.params.regularization = '';
     config.params.lambda_shearlet = 1e-5;

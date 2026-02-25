@@ -40,3 +40,11 @@ Per evitare duplicazioni tra i vari `main_*.m`, usa **solo**:
 - `run_generation_pipeline.m` per lanciare la pipeline.
 
 I vecchi script `main.m`, `main_HDF5.m`, `main_POLITO_phantoms.m`, `main_matlab_forearm_complex.m`, `main_matlab_Y_shaped.m` ora sono wrapper legacy che richiamano questa pipeline centralizzata.
+
+
+## Configurazione locale dei path
+1. Copia `local_paths.example.m` in `local_paths.m` (stessa cartella).
+2. Imposta almeno `paths.rec_toolbox_path`.
+3. Per PoliTo puoi anche impostare `paths.polito_data_folder`.
+
+`local_paths.m` non deve essere versionato.

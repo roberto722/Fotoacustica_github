@@ -7,9 +7,11 @@ clc; clear;
 profile = "voc";
 
 % Override centralizzati (modifica qui i parametri per il tuo esperimento)
+% Suggerimento: configura i path locali in custom_files/local_paths.m
+% (vedi custom_files/local_paths.example.m).
 overrides = struct();
-overrides.rec_toolbox_path = 'E:\Scardigno\Fotoacustica-MB\mb-rec-msot';
 % Esempi:
+% overrides.rec_toolbox_path = 'E:\Scardigno\Fotoacustica-MB\mb-rec-msot';
 % overrides.source.dataset_name = "VOC2012";
 % overrides.params.max_imgs = 10;
 % overrides.params.VOC_id_imgs = {"2007_003051.jpg"};
