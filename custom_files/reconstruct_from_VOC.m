@@ -96,7 +96,8 @@ function reconstruct_from_VOC(dataset_name, model, params)
             
             param_shearlet = num2str(params.lambda_shearlet, '%e');
             param_shearlet = param_shearlet(end-3:end);
-            niftiwrite(rec_img_L1_shearlet(:, :, k), fullfile(rec_dir, [params.device_probe_id '_' dataset_name '_' name_noext '_rec_img_L1_shearlet_' param_shearlet '.nii']));
+            mb_filename = sprintf('%s_%s_%s_rec_img_L1_shearlet_%s.nii', device_probe_id, dataset_name_char, name_noext, param_shearlet);
+            niftiwrite(rec_img_L1_shearlet(:, :, k), fullfile(char(rec_dir), mb_filename));
         end
     end
     
