@@ -8,3 +8,6 @@
 # OS/editor
 .DS_Store
 Thumbs.db
+
+# Local environment configuration
+custom_files/local_paths.m

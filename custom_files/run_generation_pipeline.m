@@ -1,6 +1,7 @@
 function run_generation_pipeline(config)
 %RUN_GENERATION_PIPELINE Esegue la pipeline di ricostruzione in base al profilo.
 
+    validate_generation_config(config);
     setup_reconstruction_environment(config);
     params = config.params;
     model = build_reconstruction_model(params);
